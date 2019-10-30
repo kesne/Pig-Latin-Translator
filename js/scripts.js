@@ -1,25 +1,24 @@
 // Business Logic
-function toPigLatin(sentence) {
-  var pigSentence = sentence;
-  if (/[^a-z]/i.test(pigSentence)) {
-    return pigSentence;
+function latinizer(word) {
+  var pigWord = word;
+  if (/[^a-z]/i.test(pigWord)) {
+    return pigWord;
   }
-  else if (sentence.length === 1) {
-    pigSentence += "ay";
+  else if (word.length === 1) {
+    pigWord += "ay";
   }
-  else if ((sentence.charAt(0).toLowerCase() === "a") || (sentence.charAt(0).toLowerCase() === "e") || (sentence.charAt(0).toLowerCase() === "i") || (sentence.charAt(0).toLowerCase() === "o") || (sentence.charAt(0).toLowerCase() === "u")) {
-    pigSentence += "way";
+  else if ((word.charAt(0).toLowerCase() === "a") || (word.charAt(0).toLowerCase() === "e") || (word.charAt(0).toLowerCase() === "i") || (word.charAt(0).toLowerCase() === "o") || (word.charAt(0).toLowerCase() === "u")) {
+    pigWord += "way";
   }
-  else if (!sentence.includes("qu")) {
-    var firstVowelIndex = vowelIndexer(sentence);
-    var pigSentence = sentence.slice(firstVowelIndex) + sentence.slice(0, firstVowelIndex) + "ay";
+  else if (!word.includes("qu")) {
+    var firstVowelIndex = vowelIndexer(word);
+    var pigWord = word.slice(firstVowelIndex) + word.slice(0, firstVowelIndex) + "ay";
   }
   else {
-    var firstVowelIndex = vowelIndexer(sentence);
-    var pigSentence = sentence.slice(firstVowelIndex+1) + sentence.slice(0, firstVowelIndex+1) + "ay";
+    var firstVowelIndex = vowelIndexer(word);
+    var pigWord = word.slice(firstVowelIndex+1) + word.slice(0, firstVowelIndex+1) + "ay";
   }
-
-  return pigSentence;
+  return pigWord;
 }
 
 function vowelIndexer(string) {
@@ -30,9 +29,14 @@ function vowelIndexer(string) {
   }
 }
 
-
-
-
+function toPigLatin(sentence) {
+  var sentenceArray = sentence.split(" ");
+  var pigSentenceArray = sentenceArray.map(function(word) {
+    return latinizer(word);
+  });
+  var pigSentence = pigSentenceArray.join(" ");
+  return pigSentence;
+}
 
 
 
