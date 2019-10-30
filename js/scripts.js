@@ -12,8 +12,11 @@ function toPigLatin(sentence) {
   }
   else if (!sentence.includes("qu")) {
     var firstVowelIndex = vowelIndexer(sentence);
-    console.log("Got it.");
-    console.log("Index is", firstVowelIndex);
+    var pigSentence = sentence.slice(firstVowelIndex) + sentence.slice(0, firstVowelIndex) + "ay";
+  }
+  else {
+    var firstVowelIndex = vowelIndexer(sentence);
+    var pigSentence = sentence.slice(firstVowelIndex+1) + sentence.slice(0, firstVowelIndex+1) + "ay";
   }
 
   return pigSentence;
@@ -21,7 +24,7 @@ function toPigLatin(sentence) {
 
 function vowelIndexer(string) {
   for (var i = 1; i < string.length; i++) {
-    if ((string.charAt(i).toLowerCase() === "a") || (string.charAt(i).toLowerCase() === "e") || (string.charAt(i).toLowerCase() === "i") || (string.charAt(i).toLowerCase() === "o") || (string.charAt(i).toLowerCase() === "u")) {
+    if ((string.charAt(i).toLowerCase() === "a") || (string.charAt(i).toLowerCase() === "e") || (string.charAt(i).toLowerCase() === "i") || (string.charAt(i).toLowerCase() === "o") || (string.charAt(i).toLowerCase() === "u") || (string.charAt(i).toLowerCase() === "y")) {
       return i;
     }
   }
