@@ -1,45 +1,42 @@
+const aeiou = /[aeiou]/i;
+const aeiouy = /[aeiouy]/i;
+
 // Business Logic
 function latinizer(word) {
-  var pigWord = word;
-  var aeiou = /[aeiou]/i;
-  var aeiouy = /[aeiouy]/i;
+    if (!word || /[^a-z]/i.test(word)) {
+        console.log('early return');
+        return word;
+    }
 
-  var sliceLength = 0;
-  if (word.includes("qu")) {
-    var sliceLength = 1;
-  }
+    if (word.length === 1 || word.search(aeiou) === 0) {
+        return word + 'way';
+    }
 
-  if (/[^a-z]/i.test(word)) {
-    return pigWord;
-  }
-  else if ((word.length === 1) || (word.search(aeiou) === 0)) {
-    pigWord += "way";
-  }
-  else {
-    var firstVowelIndex = word.search(aeiouy);
-    var pigWord = word.slice(firstVowelIndex + sliceLength) + word.slice(0, firstVowelIndex + sliceLength) + "ay";
-  }
-  return pigWord;
+    const sliceLength = word.includes('qu') ? 1 : 0;
+    const firstVowelIndex = word.search(aeiouy);
+
+    return (
+        word.slice(firstVowelIndex + sliceLength) +
+        word.slice(0, firstVowelIndex + sliceLength) +
+        'ay'
+    );
 }
 
 function toPigLatin(sentence) {
-  var sentenceArray = sentence.split(" ");
-  var pigSentenceArray = sentenceArray.map(function(word) {
-    return latinizer(word);
-  });
-  var pigSentence = pigSentenceArray.join(" ");
-  return pigSentence;
+    return sentence
+        .split(/([ ,!.?])/)
+        .map(word => latinizer(word))
+        .join('');
 }
-
 
 // User interface Logic
 $(document).ready(function() {
-  $("#entry").submit(function(event) {
-    event.preventDefault();
+    $('#entry').submit(function(event) {
+        event.preventDefault();
 
-    $("div#output").show();
-    var userSentence = $("input#userSentence").val();
-    var pigLatinSentence = toPigLatin(userSentence);
-    $("p#sentence").text(pigLatinSentence);
-  });
+        $('div#output').show();
+        var userSentence = $('input#userSentence').val();
+        var pigLatinSentence = toPigLatin(userSentence);
+        $('p#sentence').text(pigLatinSentence);
+    });
 });
